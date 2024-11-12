@@ -18,6 +18,7 @@ mistralai = "^1.1.0"
 beautifulsoup4 = "^4.12.3"
 pandas = "^2.2.3"
 loguru = "^0.7.2"
+phospho = "^0.3.44"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.11.2"

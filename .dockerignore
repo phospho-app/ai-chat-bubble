@@ -1,0 +1,6 @@
+.env
+.venv
+interface/
+webpack.config.js
+__pycache__/
+.mypy_cache/

@@ -50,7 +50,7 @@ This repository contains a **Docker** file, so you can run the assistant using a
 ```bash
 cd clone_repo_path
 docker build -t chatbot .
-docker run -p 8080:8080 chatbot
+docker run --env-file .env -p 8080:8080 chatbot
 ```
 
 I choose to name my docker image _chatbot_ and to run it on port _8080_. Feel free to change that, it will not affect how the assistant works.
