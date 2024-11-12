@@ -17,9 +17,11 @@ from typing import Generator
 from dotenv import load_dotenv
 from typing import List
 from pydantic import BaseModel
-
+import phospho
 
 load_dotenv()
+
+phospho.init()
 
 # Check that the environment variables are set
 assert os.getenv("QDRANT_LOCATION"), "QDRANT_LOCATION environment variable not set"
@@ -328,8 +330,14 @@ class MainExecute:
         Ask a question to the chatbot based on a url.
         """
         try:
+            output = ""
+            # Stream the response
             for chunk in self.chat.chat(question):
-                yield chunk
+                output += chunk
+                yield chunk  # Continue yielding chunks as they arrive
+
+            # Log the input and output using phospho
+            phospho.log(input=question, output=output)
 
         except KeyboardInterrupt:
             logger.info("Exiting program.")
