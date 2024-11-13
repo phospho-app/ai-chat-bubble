@@ -35,8 +35,9 @@ URL="https://www.example.com" # Your assistant will know everything about this 
 # To add:
 MISTRAL_API_KEY="..." 
 PHOSPHO_API_KEY="..."
-PHOSPHO_PROJECT_ID="...
+PHOSPHO_PROJECT_ID="..."
 
+# Advanced config 
 ORIGINS=["*"] # Used for CORS policy
 DOMAIN_STATUS_FILE="domain_status.json"
 ```
