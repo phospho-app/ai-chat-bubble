@@ -1,6 +1,6 @@
 # AI chat bubble - custom AI assistant connected to your knowledge
 
-Add an AI chat bubble to your website in no time. The AI assistant can answer questions about a website's content using **RAG**, streaming, and the Mistral model.
+**Simple and fast AI chat bubble for your HTML website.** The AI assistant can answer questions about a website's content using RAG, streaming, and the Mistral model. Compatible with **React** and **Wordpress**!
 
 ```bash
 # Run this to deploy the backend.
@@ -25,7 +25,9 @@ Open `demo.html` to see the results:
 
 Improve your knowledge base thanks to included [phospho analytics](https://phospho.ai).
 
-## 1. Set up .env
+## Quickstart
+
+### 1. Setup .env
 
 Clone this repository. Then, create a `.env` file at the root with this content:
 
@@ -47,12 +49,12 @@ The assistant will crawl domains with a depth of 3 (this is customizable).
 
 _Note: Keep the `DOMAIN_STATUS_FILE` as it is._
 
-### External services
+#### External services
 
 - **LLM:** We use the Mistral AI model - _mistral-large-latest_. Get your `MISTRAL_API_KEY` [here](https://mistral.ai).
 - **Analytics:** Messages are logged to phospho. Get your `PHOSPHO_API_KEY` and your `PHOSPHO_PROJECT_ID` [here](https://platform.phospho.ai).
 
-## 2. Run the assistant backend
+### 2. Run the assistant backend
 
 This repository uses [docker compose](https://docs.docker.com/compose/). [Follow this guide to install docker compose](https://docs.docker.com/compose/install/), then run the assistant's backend:
 
@@ -63,7 +65,7 @@ docker-compose up --build
 
 Questions are sent to the assistant using the POST API endpoint `/question_on_url`. This returns a streamable response. Go to [localhost:8080/docs] for more details.
 
-## 3. Add the chat bubble to your website
+### 3. Add the chat bubble to your website
 
 Add the chat bubble to your website with this snippet in a HTML component:
 
