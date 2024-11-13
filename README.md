@@ -32,10 +32,12 @@ After cloning the repository, create a `.env` file at the root of the repository
 ```bash
 URL="https://www.example.com" # Your assistant will know everything about this URL
 
-MISTRAL_API_KEY="your_mistral_api_key" 
+# To add:
+MISTRAL_API_KEY="..." 
+PHOSPHO_API_KEY="..."
+PHOSPHO_PROJECT_ID="...
+
 ORIGINS=["*"] # Used for CORS policy
-PHOSPHO_API_KEY="your_phospho_api_key"
-PHOSPHO_PROJECT_ID="you_phospho_project_id"
 DOMAIN_STATUS_FILE="domain_status.json"
 ```
 
