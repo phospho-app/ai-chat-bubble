@@ -68,17 +68,7 @@ Add the chat bubble to your website using this code snippet in a HTML component:
 <script src="http://localhost:8080/component/chat-bubble.js" async />
 ```
 
-## Advanced setup
-
-### Ports
-
-The docker runs the main app on port _8080_. To change it, add a `SERVER_URL` field in your `.env`.
-
-```
-SERVER_URL=your_new_port
-```
-
-Then change the source of the interface script: `<script src="your_new_port/component/chat-bubble.js" async />`
+## Advanced configuration
 
 ### Change the chat bubble UI
 
@@ -95,3 +85,14 @@ ORIGINS = ["http://localhost:3000", "http://localhost:3001"]
 ```
 
 _Only urls in `ORIGINS` can access the `/question_on_url` endpoint._
+
+### Edit ports
+
+The docker runs the main app on port _8080_. To change it, add a `SERVER_URL` field in your `.env`.
+
+```
+SERVER_URL=your_new_port
+```
+
+Then change the source of the interface script: `<script src="your_new_port/component/chat-bubble.js" async />`
+
