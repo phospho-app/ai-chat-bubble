@@ -1,24 +1,24 @@
 # AI chat bubble - custom AI assistant connected to your knowledge
 
-Add an AI chat bubble to your website in no time. The AI assistant can answer questions about a website's content using **RAG**, streaming, and the Mistral model. 
+Add an AI chat bubble to your website in no time. The AI assistant can answer questions about a website's content using **RAG**, streaming, and the Mistral model.
 
 ```bash
-# Example: Create a chatbot that can answer question about https://docs.phospho.ai 
+# Example: Create a chatbot that can answer question about https://docs.phospho.ai
 URL="https://docs.phospho.ai" docker-compose up --build
 ```
 
 ```html
-// Add the chatbubble to your frontend
-<script src="component/chat-bubble.js" async />
+<!-- Add the chatbubble to your frontend -->
+<script src="http://localhost:8080/component/chat-bubble.js" async></script>
 ```
 
-Result: 
+Open demo.html to see the result:
 
 <!--![Assistant closed](images/assistant_closed.png)-->
 
 ![Chat with assistant](images/chat_with_assistant.png)
 
-**How does it work ?**
+**How does it work ?**p
 
 1. Add a code snippet to your frontend
 2. Connect a URL to give knowledge to your assistant
@@ -27,17 +27,17 @@ Result:
 
 ## 1. Set up .env
 
-After cloning the repository, create a `.env` file at the root of the repository with the following content:
+Clone this repository. Then, create a `.env` file at the root with this content:
 
 ```bash
 URL="https://www.example.com" # Your assistant will know everything about this URL
 
 # To add:
-MISTRAL_API_KEY="..." 
+MISTRAL_API_KEY="..."
 PHOSPHO_API_KEY="..."
 PHOSPHO_PROJECT_ID="..."
 
-# Advanced config 
+# Advanced config
 ORIGINS=["*"] # Used for CORS policy
 DOMAIN_STATUS_FILE="domain_status.json"
 ```
@@ -54,14 +54,14 @@ _Note: Keep the `DOMAIN_STATUS_FILE` as it is._
 
 ## 2. Run the assistant backend
 
-This repository contains a **docker-compose.yml** file. Run the assistant's backend this way:
+This repository uses [docker compose](https://docs.docker.com/compose/). [Follow this guide to install docker compose](https://docs.docker.com/compose/install/), then run the assistant's backend:
 
 ```bash
 cd clone_repo_path
 docker-compose up --build
 ```
 
-Questions are sent to the assistant using the POST API endpoint `/question_on_url`. This returns a streamable response. 
+Questions are sent to the assistant using the POST API endpoint `/question_on_url`. This returns a streamable response.
 
 ## 3. Add the chat bubble to your website
 
@@ -75,7 +75,7 @@ Add the chat bubble to your website using this code snippet in a HTML component:
 
 ### Change the chat bubble UI
 
-The file `component/chat-bubble.js` is served as a static file and is the compiled version of `interface/chat-bubble.js`. 
+The file `component/chat-bubble.js` is served as a static file and is the compiled version of `interface/chat-bubble.js`.
 
 To change it, edit the `interface/chat-bubble.js` and then run `npx webpack` in the folder _app_ of the repo.
 
@@ -98,4 +98,3 @@ SERVER_URL=your_new_port
 ```
 
 Then change the source of the interface script: `<script src="your_new_port/component/chat-bubble.js" async />`
-
