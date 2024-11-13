@@ -1,84 +1,76 @@
-# Deploy in your website a custom chat assistant
+# AI chat bubble - custom AI assistant connected to your knowledge
 
-This repository implements an assistant chatbot that proceed RAG on a custom website.
+Add an AI chat bubble to your website in no time. The AI assistant can answer questions about a website's content using **RAG**, streaming, and the Mistral model. 
 
-**How it works ?**
+```bash
+# Example: Create a chatbot that can answer question about https://docs.phospho.ai 
+URL="https://docs.phospho.ai" docker-compose up --build
+```
 
-The assistant gets information from an url you gave, store the embeddings in a vector database and use a LLM to generate answers.
-
-## Result
-
-Here is an example where the url given to the assistant is *https://doc.phospho.ai*.
+```html
+// Add the chatbubble to your frontend
+<script src="component/chat-bubble.js" async />
+```
 
 ![Assistant closed](images/assistant_closed.png)
 
 ![Chat with assistant](images/chat_with_assistant.png)
 
-## Set up
+**How does it work ?**
 
-After cloning the repository, create a `.env` file in the root of the repository. Then put the following informations in your `.env`.
+1. Add a code snippet to your frontend
+2. Connect a URL to give knowledge to your assistant
+3. Answer your users' questions with RAG
+4. 4. Analyze conversations to improve the knowledge
 
-```python
-URL="https://www.example.com"
+## Set up .env
 
-MISTRAL_API_KEY="your_mistral_api_key"
-ORIGINS=["http://localhost:3000"]
-DOMAIN_STATUS_FILE="domain_status.json"
+After cloning the repository, create a `.env` file at the root of the repository with the following content:
+
+```bash
+URL="https://www.example.com" # Your assistant will know everything about this URL
+
+MISTRAL_API_KEY="your_mistral_api_key" 
+ORIGINS=["*"] # Used for CORS policy
 PHOSPHO_API_KEY="your_phospho_api_key"
 PHOSPHO_PROJECT_ID="you_phospho_project_id"
+DOMAIN_STATUS_FILE="domain_status.json"
 ```
 
-In `URL` put the url you want the assistant to know about.
+In `URL`, put the website with the relevant content you want the assistant to know about.
 The assistant will crawl domains with a depth of 3 (this is customizable).
 
-_Keep the `DOMAIN_STATUS_FILE` as it is._
+_Note: Keep the `DOMAIN_STATUS_FILE` as it is._
 
-### MISTRAL
+### External services
 
-The assistant needs an LLM to generate an answer. Here, a Mistral ai model is used - _mistral-large-latest_, so you need a `MISTRAL_API_KEY`. You can [obtain one here](https://mistral.ai).
+- **LLM:** We use the Mistral AI model - _mistral-large-latest_, so you need a `MISTRAL_API_KEY`. [Get one here](https://mistral.ai).
+- **Analytics:** Messages are logged to phospho. Get your `PHOSPHO_API_KEY` and your `PHOSPHO_PROJECT_ID` [here](https://platform.phospho.ai).
 
-###
+## Run the assistant backend
 
-The assistant logs the messages in **phospho**. Obtain your `PHOSPHO_API_KEY` and your `PHOSPHO_PROJECT_ID` [here](https://platform.phospho.ai).
-
-## Run the assistant
-
-This repository contains a **docker-compose.yml** file, you can run the assistant using
-this
+This repository contains a **docker-compose.yml** file. Run the assistant's backend this way:
 
 ```bash
 cd clone_repo_path
 docker-compose up --build
 ```
 
-## Communicate to the assistant
+Questions are sent to the assistant using the POST API endpoint `/question_on_url`. This returns a streamable response. 
 
-Now you can send questions to the assistant using the POST API endpoint `/question_on_url`. It will return streamable response. If you want to call it from an other virtual machine, add it to the `ORIGINS`list in your `.env`.
+## Add a chat bubble to your website
 
-Example:
+Add the chat bubble to your website using this code snippet in a HTML component:
 
-```
-ORIGINS = ["http://localhost:3000", "http://localhost:3001"]
-```
-
-_Only urls in `ORIGINS` can access the `/question_on_url` endpoint._
-
-## Integrate it in your site
-
-You can easily add an assistant interface by adding
-
-```
+```html
 <script src="http://localhost:8080/component/chat-bubble.js" async />
 ```
 
-in a HTML component.
-
-## Customize the ports and the interface (Optional)
+## Advanced setup
 
 ### Ports
 
-The docker runs the main app on port _8080_.
-In order to change it, add a `SERVER_URL` field in your `.env`.
+The docker runs the main app on port _8080_. To change it, add a `SERVER_URL` field in your `.env`.
 
 ```
 SERVER_URL=your_new_port
@@ -86,6 +78,18 @@ SERVER_URL=your_new_port
 
 Then change the source of the interface script: `<script src="your_new_port/component/chat-bubble.js" async />`
 
-### Interface
+### Chat bubble UI
 
-The file `component/chat-bubble.js` is served as a static file and is the compiled version of the `interface/chat-bubble.js`. To change it, modify the `interface/chat-bubble.js` and then run `npx webpack` in the folder _app_ of the repo.
+The file `component/chat-bubble.js` is served as a static file and is the compiled version of `interface/chat-bubble.js`. 
+
+To change it, edit the `interface/chat-bubble.js` and then run `npx webpack` in the folder _app_ of the repo.
+
+## CORS policy
+
+In production, it's best to setup a more restrictive CORS policy. For example, to allow only your frontend to call your assistant. To do this, change the `ORIGINS` list in your `.env`.
+
+```
+ORIGINS = ["http://localhost:3000", "http://localhost:3001"]
+```
+
+_Only urls in `ORIGINS` can access the `/question_on_url` endpoint._
