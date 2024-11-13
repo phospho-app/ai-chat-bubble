@@ -14,7 +14,7 @@ URL="https://docs.phospho.ai" docker-compose up --build
 
 Result: 
 
-![Assistant closed](images/assistant_closed.png)
+<!--![Assistant closed](images/assistant_closed.png)-->
 
 ![Chat with assistant](images/chat_with_assistant.png)
 
