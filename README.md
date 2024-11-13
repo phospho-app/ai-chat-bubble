@@ -23,7 +23,7 @@ URL="https://docs.phospho.ai" docker-compose up --build
 3. Answer your users' questions with RAG
 4. Analyze conversations to improve the knowledge
 
-## Set up .env
+## 1. Set up .env
 
 After cloning the repository, create a `.env` file at the root of the repository with the following content:
 
@@ -47,7 +47,7 @@ _Note: Keep the `DOMAIN_STATUS_FILE` as it is._
 - **LLM:** We use the Mistral AI model - _mistral-large-latest_, so you need a `MISTRAL_API_KEY`. [Get one here](https://mistral.ai).
 - **Analytics:** Messages are logged to phospho. Get your `PHOSPHO_API_KEY` and your `PHOSPHO_PROJECT_ID` [here](https://platform.phospho.ai).
 
-## Run the assistant backend
+## 2. Run the assistant backend
 
 This repository contains a **docker-compose.yml** file. Run the assistant's backend this way:
 
@@ -58,7 +58,7 @@ docker-compose up --build
 
 Questions are sent to the assistant using the POST API endpoint `/question_on_url`. This returns a streamable response. 
 
-## Add a chat bubble to your website
+## 3. Add the chat bubble to your website
 
 Add the chat bubble to your website using this code snippet in a HTML component:
 
@@ -78,13 +78,13 @@ SERVER_URL=your_new_port
 
 Then change the source of the interface script: `<script src="your_new_port/component/chat-bubble.js" async />`
 
-### Chat bubble UI
+### Change the chat bubble UI
 
 The file `component/chat-bubble.js` is served as a static file and is the compiled version of `interface/chat-bubble.js`. 
 
 To change it, edit the `interface/chat-bubble.js` and then run `npx webpack` in the folder _app_ of the repo.
 
-## CORS policy
+### CORS policy
 
 In production, it's best to setup a more restrictive CORS policy. For example, to allow only your frontend to call your assistant. To do this, change the `ORIGINS` list in your `.env`.
 
