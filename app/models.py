@@ -6,8 +6,11 @@ from scrapy.crawler import CrawlerProcess  # type:ignore
 from scrapy.utils.project import (  # type:ignore
     get_project_settings,
 )
-from qdrant_client import models, QdrantClient
-from sentence_transformers import SentenceTransformer
+from qdrant_client import QdrantClient
+from llama_index.vector_stores.qdrant import QdrantVectorStore
+from llama_index.core import StorageContext
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 import time
 import json
 from mistralai import Mistral, AssistantMessage, ToolMessage
@@ -24,8 +27,6 @@ load_dotenv()
 phospho.init()
 
 # Check that the environment variables are set
-assert os.getenv("QDRANT_LOCATION"), "QDRANT_LOCATION environment variable not set"
-assert os.getenv("QDRANT_API_KEY"), "QDRANT_API_KEY environment variable not set"
 assert os.getenv("MISTRAL_API_KEY"), "MISTRAL_API_KEY environment variable not set"
 
 
@@ -50,7 +51,7 @@ class ScraperInterface:
         """
         self.domain = domain
         self.depth = depth
-        self.output_path = f"data/{self.domain}.json"
+        self.output_path = os.path.join(os.getcwd(), "data", f"{domain}.json")
         self.spider_db = os.path.join(os.getcwd(), "data")
 
     def run_crawler(self):
@@ -82,52 +83,49 @@ class EmbeddingsVS:
         """
         self.vector_db_name = domain.replace(".", "_")
         self.domain = domain
-        self.encoder = SentenceTransformer("all-MiniLM-L6-v2")
-        self.qdrant_client = QdrantClient(
-            os.getenv("QDRANT_LOCATION"),
-            api_key=os.getenv("QDRANT_API_KEY"),
-        )  # here if you want to change the location of the vectorstore
-        self.scrapped_path = f"data/{self.domain}.json"
+        self.embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
+
+        self.client = QdrantClient(
+            # you can use :memory: mode for fast and light-weight experiments,
+            # it does not require to have Qdrant deployed anywhere
+            # but requires qdrant-client >= 1.1.1
+            # location=":memory:"
+            # otherwise set Qdrant instance address with:
+            # url="http://<host>:<port>"
+            # otherwise set Qdrant instance with host and port:
+            host="qdrant",
+            port=6333,
+            # set API KEY for Qdrant Cloud
+            # api_key=QDRANT_API_KEY,
+        )
+        self.scrapped_path = os.path.join(os.getcwd(), "data")
         self.limit = 5
 
     def upload_embeddings(self):
         """
         Upload the embeddings to the Qdrant vector database.
         """
+        try:
+            documents = SimpleDirectoryReader(self.scrapped_path).load_data()
 
-        with open(self.scrapped_path, "r") as file:
-            documents = json.load(file)
-        file.close()
-
-        # create collection if not exist
-        if not self.qdrant_client.collection_exists(self.vector_db_name):
-            self.qdrant_client.create_collection(
-                collection_name=self.vector_db_name,
-                vectors_config=models.VectorParams(
-                    size=self.encoder.get_sentence_embedding_dimension(),  # Vector size is defined by used model
-                    distance=models.Distance.COSINE,  # change the search methods as you want
-                ),
-                # TODO: add on_disk_payloads=True, if you have a lot of data (will be slower)
+            vector_store = QdrantVectorStore(
+                client=self.client, collection_name=self.vector_db_name
             )
-        self.qdrant_client.upload_points(
-            collection_name=self.vector_db_name,
-            points=[
-                models.PointStruct(
-                    id=chunk["id"],
-                    vector=chunk["embedding"],
-                    payload={
-                        "chunk_text": chunk["chunk_text"],
-                        "embeddings": chunk["embedding"],
-                        "url": documents["data"][idx]["url"],
-                    },
-                )
-                for idx, doc in enumerate(documents["data"])
-                for chunk in doc["chunked_text"]["embeddings"]
-            ],
-        )
-        logger.info(
-            f"Uploaded {len(documents['data'])} documents to {self.vector_db_name} collection"
-        )
+            storage_context = StorageContext.from_defaults(vector_store=vector_store)
+            index = VectorStoreIndex.from_documents(
+                documents,
+                storage_context=storage_context,
+                embed_model=self.embed_model,
+            )
+            logger.info(
+                f"Uploaded {len(documents)} documents to {self.vector_db_name} collection"
+            )
+
+            return index
+        except Exception as e:
+            logger.error(f"Failed to upload embeddings: {str(e)}")
+
+            raise e
 
     def search(self, query: str) -> List[dict]:
         """
@@ -136,30 +134,41 @@ class EmbeddingsVS:
         :param query: The search query.
         :return: A dictionary of search results.
         """
-        if not self.qdrant_client.collection_exists(self.vector_db_name):
-            logger.info(
-                f"Collection {self.vector_db_name} not found. Attempting to create."
+        try:
+            # Try to load existing index
+            vector_store = QdrantVectorStore(
+                client=self.client,
+                collection_name=self.vector_db_name,
             )
-            self.upload_embeddings()  # Ensure the collection is created
-        hits = self.qdrant_client.search(
-            collection_name=self.vector_db_name,
-            query_vector=self.encoder.encode(query).tolist(),
-            limit=self.limit,
-            with_payload=True,  # Ensure payload containing embeddings is returned
-        )
-        results_qdrant_embeddings = [
+            storage_context = StorageContext.from_defaults(vector_store=vector_store)
+            index = VectorStoreIndex.from_vector_store(
+                vector_store,
+                storage_context=storage_context,
+                embed_model=self.embed_model,
+            )
+        except Exception as _:
+            logger.info(
+                f"Collection {self.vector_db_name} not found. Creating new index."
+            )
+            index = self.upload_embeddings()
+
+        # Perform the search
+        retriever = index.as_retriever(similarity_top_k=self.limit)
+        results = retriever.retrieve(query)
+
+        results_embeddings = [
             {
-                "id": hit.id,
-                "text": hit.payload["chunk_text"],
-                "score": hit.score,
-                "embeddings": hit.payload["embeddings"],
-                "url": hit.payload["url"],
+                "id": node.metadata.get("id"),
+                "text": node.text,
+                "score": node.score if hasattr(node, "score") else None,
+                "embeddings": node.metadata.get("embedding"),
+                "url": node.metadata.get("url"),
             }
-            for hit in hits
+            for node in results
         ]
 
-        logger.info("relevant urls: %s", [r["url"] for r in results_qdrant_embeddings])
-        return results_qdrant_embeddings
+        logger.info("relevant urls: %s", [r["url"] for r in results_embeddings])
+        return results_embeddings
 
 
 class ChatMistral:
