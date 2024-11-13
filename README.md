@@ -60,15 +60,17 @@ cd clone_repo_path
 docker-compose up --build
 ```
 
-Questions are sent to the assistant using the POST API endpoint `/question_on_url`. This returns a streamable response.
+Questions are sent to the assistant using the POST API endpoint `/question_on_url`. This returns a streamable response. Go to [localhost:8080/docs] for more details.
 
 ## 3. Add the chat bubble to your website
 
-Add the chat bubble to your website using this code snippet in a HTML component:
+Add the chat bubble to your website with this snippet in a HTML component:
 
 ```html
 <script src="http://localhost:8080/component/chat-bubble.js" async></script>
 ```
+
+Look into advanced configuration to change its style.
 
 ## Advanced configuration
 
