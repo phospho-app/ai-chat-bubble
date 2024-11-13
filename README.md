@@ -18,10 +18,11 @@ Open `demo.html` to see the results:
 
 **How does it work ?**
 
-1. Add a code snippet to your frontend
-2. Connect a URL to give knowledge to your assistant
-3. Answer your users' questions with RAG
-4. Analyze conversations to improve the knowledge
+1. Run the backend to create an assistant with knowledge about your website's content
+2. Add a code snippet to your HTML frontend
+3. Your users can now chat with an assistant!
+
+Improve your knowledge base thanks to included [phospho analytics](https://phospho.ai).
 
 ## 1. Set up .env
 
@@ -47,7 +48,7 @@ _Note: Keep the `DOMAIN_STATUS_FILE` as it is._
 
 ### External services
 
-- **LLM:** We use the Mistral AI model - _mistral-large-latest_, so you need a `MISTRAL_API_KEY`. [Get one here](https://mistral.ai).
+- **LLM:** We use the Mistral AI model - _mistral-large-latest_. Get your `MISTRAL_API_KEY` [here](https://mistral.ai).
 - **Analytics:** Messages are logged to phospho. Get your `PHOSPHO_API_KEY` and your `PHOSPHO_PROJECT_ID` [here](https://platform.phospho.ai).
 
 ## 2. Run the assistant backend
