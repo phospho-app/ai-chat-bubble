@@ -1,9 +1,13 @@
 import os
+import sys
 import json
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
+
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
 from models import QuestionOnUrlRequest
 from typing import Dict, Optional
 from urllib.parse import urlparse
@@ -15,8 +19,6 @@ from loguru import logger
 load_dotenv()
 
 # Check that the environment variables are set
-assert os.getenv("QDRANT_LOCATION"), "QDRANT_LOCATION environment variable not set"
-assert os.getenv("QDRANT_API_KEY"), "QDRANT_API_KEY environment variable not set"
 assert os.getenv("MISTRAL_API_KEY"), "MISTRAL_API_KEY environment variable not set"
 assert os.getenv("URL"), "URL environment variable not set"
 assert os.getenv(
@@ -90,8 +92,13 @@ def submit_url(url: Optional[str]):
         domain_status[domain] = "queued"
         save_domain_status()
         logger.info(f"Submitting domain: {domain}")
-        process_domain(domain)
-        logger.info(f"{domain} indexation completed")
+        try:
+            process_domain(domain)
+            logger.info(f"{domain} indexation completed")
+        except Exception as e:
+            logger.error(f"Failed to process domain {domain}: {str(e)}")
+            domain_status[domain] = f"failed: {str(e)}"
+            save_domain_status()
     else:
         logger.info(f"Domain {domain} already being processed")
 
@@ -157,6 +164,7 @@ async def question_on_url(request: QuestionOnUrlRequest):
     domain = urlparse(url).netloc
 
     logger.debug(f"Domain: {domain}")
+    logger.debug(f"Domains: {domain_instances.keys()}")
 
     if domain not in domain_instances:
         raise HTTPException(status_code=400, detail="Domain not processed yet")

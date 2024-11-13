@@ -36,21 +36,12 @@ The assistant needs an LLM to generate an answer. Here, a Mistral ai model is us
 
 ## Run the assistant
 
-You can launch the assistant from a python3.11 environment.
+This repository contains a **docker-compose.yml** file, you can run the assistant using
+tus
 
 ```bash
 cd clone_repo_path
-pip install poetry
-poetry install
-python main.py
-```
-
-This repository contains a **Docker** file, so you can run the assistant using a docker daemon.
-
-```bash
-cd clone_repo_path
-docker build -t chatbot .
-docker run --env-file .env -p 8080:8080 chatbot
+docker-compose up --build
 ```
 
 I choose to name my docker image _chatbot_ and to run it on port _8080_. Feel free to change that, it will not affect how the assistant works.
