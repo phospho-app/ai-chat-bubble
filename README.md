@@ -12,11 +12,9 @@ URL="https://docs.phospho.ai" docker-compose up --build
 <script src="http://localhost:8080/component/chat-bubble.js" async></script>
 ```
 
-Open demo.html to see the result:
+Open demo.html to see the results:
 
-<!--![Assistant closed](images/assistant_closed.png)-->
-
-![Chat with assistant](images/chat_with_assistant.png)
+![ai chat bubble](https://github.com/user-attachments/assets/32a5172a-017e-41ac-a59b-c9940e541380)
 
 **How does it work ?**p
 
