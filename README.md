@@ -21,7 +21,7 @@ URL="https://docs.phospho.ai" docker-compose up --build
 1. Add a code snippet to your frontend
 2. Connect a URL to give knowledge to your assistant
 3. Answer your users' questions with RAG
-4. 4. Analyze conversations to improve the knowledge
+4. Analyze conversations to improve the knowledge
 
 ## Set up .env
 
