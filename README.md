@@ -68,7 +68,7 @@ Questions are sent to the assistant using the POST API endpoint `/question_on_ur
 Add the chat bubble to your website using this code snippet in a HTML component:
 
 ```html
-<script src="http://localhost:8080/component/chat-bubble.js" async />
+<script src="http://localhost:8080/component/chat-bubble.js" async></script>
 ```
 
 ## Advanced configuration
