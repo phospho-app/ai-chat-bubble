@@ -3,7 +3,8 @@
 Add an AI chat bubble to your website in no time. The AI assistant can answer questions about a website's content using **RAG**, streaming, and the Mistral model.
 
 ```bash
-# Run this to deploy the backend. Example for a chatbot that can answer questions about https://docs.phospho.ai
+# Run this to deploy the backend.
+# Example: this chatbot will answer questions about https://docs.phospho.ai
 URL="https://docs.phospho.ai" docker-compose up --build
 ```
 
