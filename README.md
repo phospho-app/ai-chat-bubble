@@ -100,3 +100,16 @@ SERVER_URL=your_new_port
 ```
 
 Then change the source of the interface script: `<script src="your_new_port/component/chat-bubble.js" async />`
+
+### Prompts, AI, vector databases
+
+This assistant uses [Llama Index](https://docs.llamaindex.ai/en/stable/), [Qdrant](https://qdrant.tech/documentation/), and [Mistral](https://docs.mistral.ai). This behaviour is implemented in `models.py`.
+
+- Edit `ChatMistral` to change the prompts or models
+- Edit the `EmbeddingsVS` client to use another Vector store than Qdrant
+
+## About
+
+Made with love and baguettes in Paris - phospho team 🥖🇫🇷
+
+Special thanks to @flamschou, @fred3105, and @oulianov 🧪💚
