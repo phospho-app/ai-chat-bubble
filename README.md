@@ -1,10 +1,18 @@
-# One click custom domain assistant expert
+# Deploy in your website a custom chat assistant
 
 This repository implements an assistant chatbot that proceed RAG on a custom website.
 
 **How it works ?**
 
 The assistant gets information from an url you gave, store the embeddings in a vector database and use a LLM to generate answers.
+
+## Result
+
+Here is an example where the url given to the assistant is *https://doc.phospho.ai*.
+
+![Assistant closed](images/assistant_closed.png)
+
+![Chat with assistant](images/chat_with_assistant.png)
 
 ## Set up
 
