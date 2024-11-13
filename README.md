@@ -8,15 +8,15 @@ URL="https://docs.phospho.ai" docker-compose up --build
 ```
 
 ```html
-<!-- Add the chatbubble to your frontend -->
+<!-- This is how you add the chatbubble to your frontend -->
 <script src="http://localhost:8080/component/chat-bubble.js" async></script>
 ```
 
-Open demo.html to see the results:
+Open `demo.html` to see an example:
 
 ![ai chat bubble](https://github.com/user-attachments/assets/32a5172a-017e-41ac-a59b-c9940e541380)
 
-**How does it work ?**p
+**How does it work ?**
 
 1. Add a code snippet to your frontend
 2. Connect a URL to give knowledge to your assistant
