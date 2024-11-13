@@ -12,6 +12,8 @@ URL="https://docs.phospho.ai" docker-compose up --build
 <script src="component/chat-bubble.js" async />
 ```
 
+Result: 
+
 ![Assistant closed](images/assistant_closed.png)
 
 ![Chat with assistant](images/chat_with_assistant.png)
