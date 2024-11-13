@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: python_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - qdrant
+    environment:
+      PYTHONPATH: /app
+      QDRANT_HOST: qdrant
+      QDRANT_PORT: 6333
+      URL: ${URL}
+      MISTRAL_API_KEY: ${MISTRAL_API_KEY}
+      DOMAIN_STATUS_FILE: ${DOMAIN_STATUS_FILE}
+      ORIGINS: ${ORIGINS}
+      PHOSPHO_API_KEY: ${PHOSPHO_API_KEY}
+      PHOSPHO_PROJECT_ID: ${PHOSPHO_PROJECT_ID}
+
+volumes:
+  qdrant_data:
