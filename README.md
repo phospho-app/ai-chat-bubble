@@ -64,7 +64,7 @@ Add the chat bubble to your website with this snippet in a HTML component:
 <script src="http://localhost:8080/component/chat-bubble.js" async></script>
 ```
 
-If you just wan to test your assistant, you simply need to open the `index.html` file in your browser.
+If you just wan to test your assistant, you simply need to open the `demo.html` file in your browser.
 
 Look into advanced configuration to change its style.
 
