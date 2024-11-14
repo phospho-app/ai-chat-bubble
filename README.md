@@ -2,28 +2,18 @@
 
 **Simple and fast AI chat bubble for your HTML website.** The AI assistant can answer questions about a website's content using RAG, streaming, and the Mistral model. Compatible with **React** and **Wordpress**!
 
-```bash
-# Run this to deploy the backend.
-# Example: this chatbot will answer questions about https://docs.phospho.ai
-URL="https://docs.phospho.ai" docker-compose up --build
-```
-
-```html
-<!-- This is how you add the chatbubble to your frontend -->
-<script src="http://localhost:8080/component/chat-bubble.js" async></script>
-```
-
-Open `demo.html` to see the results: an AI chat bubble in the bottom-right corner.
-
-![ai chat bubble](https://github.com/user-attachments/assets/32a5172a-017e-41ac-a59b-c9940e541380)
-
 **How does it work ?**
 
 1. Run the backend to create an assistant with knowledge about your website's content
 2. Add a code snippet to your HTML frontend
 3. Your users can now chat with an assistant in an AI chat bubble!
 
-Improve your knowledge base thanks to included [phospho analytics](https://phospho.ai).
+**Production-ready**
+
+You can host the AI chat bubble on your own machine with a simple `docker-compose up --build`.
+See what users are asking thanks to [phospho analytics](https://phospho.ai) already integrated.
+
+![ai chat bubble](https://github.com/user-attachments/assets/32a5172a-017e-41ac-a59b-c9940e541380)
 
 ## Quickstart
 
@@ -72,6 +62,8 @@ Add the chat bubble to your website with this snippet in a HTML component:
 ```html
 <script src="http://localhost:8080/component/chat-bubble.js" async></script>
 ```
+
+If you just wan to test your assistant, you simply need to open the `index.html` file in your browser.
 
 Look into advanced configuration to change its style.
 
