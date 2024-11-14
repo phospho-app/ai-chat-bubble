@@ -13,7 +13,7 @@ URL="https://docs.phospho.ai" docker-compose up --build
 <script src="http://localhost:8080/component/chat-bubble.js" async></script>
 ```
 
-Open `demo.html` to see the results:
+Open `demo.html` to see the results: an AI chat bubble in the bottom-right corner.
 
 ![ai chat bubble](https://github.com/user-attachments/assets/32a5172a-017e-41ac-a59b-c9940e541380)
 
@@ -21,7 +21,7 @@ Open `demo.html` to see the results:
 
 1. Run the backend to create an assistant with knowledge about your website's content
 2. Add a code snippet to your HTML frontend
-3. Your users can now chat with an assistant!
+3. Your users can now chat with an assistant in an AI chat bubble!
 
 Improve your knowledge base thanks to included [phospho analytics](https://phospho.ai).
 
@@ -44,7 +44,7 @@ ORIGINS=["*"] # Used for CORS policy
 DOMAIN_STATUS_FILE="domain_status.json"
 ```
 
-In `URL`, put the website with the relevant content you want the assistant to know about.
+In `URL`, put the website with the relevant content you want the AI assistant to know about.
 The assistant will crawl domains with a depth of 3 (this is customizable).
 
 _Note: Keep the `DOMAIN_STATUS_FILE` as it is._
@@ -56,7 +56,7 @@ _Note: Keep the `DOMAIN_STATUS_FILE` as it is._
 
 ### 2. Run the assistant backend
 
-This repository uses [docker compose](https://docs.docker.com/compose/). [Follow this guide to install docker compose](https://docs.docker.com/compose/install/), then run the assistant's backend:
+To deploy the backend of the AI chat bubble, this repository uses [docker compose](https://docs.docker.com/compose/). [Follow this guide to install docker compose](https://docs.docker.com/compose/install/), then run the assistant's backend:
 
 ```bash
 cd clone_repo_path
@@ -79,13 +79,13 @@ Look into advanced configuration to change its style.
 
 ### Change the chat bubble UI
 
-The file `component/chat-bubble.js` is served as a static file and is the compiled version of `interface/chat-bubble.js`.
+The file `component/chat-bubble.js` contains the AI chat bubble style. It is served as a static file and is the compiled version of `interface/chat-bubble.js`.
 
-To change it, edit the `interface/chat-bubble.js` and then run `npx webpack` in the folder _app_ of the repo.
+To change the AI chat bubble, edit the `interface/chat-bubble.js` and then run `npx webpack` in the folder _app_ of the repo.
 
 ### CORS policy
 
-In production, it's best to setup a more restrictive CORS policy. For example, to allow only your frontend to call your assistant. To do this, change the `ORIGINS` list in your `.env`.
+In production, it's best to setup a more restrictive CORS policy to allow only your frontend to call your AI assistant backend. To do this, change the `ORIGINS` list in your `.env`.
 
 ```
 ORIGINS = ["http://localhost:3000", "http://localhost:3001"]
@@ -105,7 +105,7 @@ Then change the source of the interface script: `<script src="your_new_port/comp
 
 ### Prompts, AI, vector databases
 
-This assistant uses [Llama Index](https://docs.llamaindex.ai/en/stable/), [Qdrant](https://qdrant.tech/documentation/), and [Mistral](https://docs.mistral.ai). This behaviour is implemented in `models.py`.
+The AI assistant of the AI chat bubble uses [Llama Index](https://docs.llamaindex.ai/en/stable/), [Qdrant](https://qdrant.tech/documentation/), and [Mistral](https://docs.mistral.ai). This behaviour is implemented in `models.py`.
 
 - Edit `ChatMistral` to change the prompts or models
 - Edit the `EmbeddingsVS` client to use another Vector store than Qdrant
