@@ -29,12 +29,12 @@ git clone https://github.com/phospho-app/ai-chat-bubble.git
 Then, create a `.env` file at the root with this content:
 
 ```bash
-URL="https://www.example.com" # Your assistant will know everything about this URL
+URL=https://www.example.com # Your assistant will know everything about this URL
 
 # To add:
-MISTRAL_API_KEY="..."
-PHOSPHO_API_KEY="..."
-PHOSPHO_PROJECT_ID="..."
+MISTRAL_API_KEY=...
+PHOSPHO_API_KEY=...
+PHOSPHO_PROJECT_ID=...
 ```
 
 In `URL`, put the website with the relevant content you want the AI assistant to know about.
