@@ -50,7 +50,7 @@ The assistant will crawl domains with a depth of 3 (this is customizable).
 To deploy the backend of the AI chat bubble, this repository uses [docker compose](https://docs.docker.com/compose/). [Follow this guide to install docker compose](https://docs.docker.com/compose/install/), then run the assistant's backend:
 
 ```bash
-cd clone_repo_path
+cd ai-chat-bubble
 docker-compose up --build
 ```
 
