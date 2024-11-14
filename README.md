@@ -63,7 +63,7 @@ cd clone_repo_path
 docker-compose up --build
 ```
 
-Questions are sent to the assistant using the POST API endpoint `/question_on_url`. This returns a streamable response. Go to [localhost:8080/docs] for more details.
+Questions are sent to the assistant using the POST API endpoint `/question_on_url`. This returns a streamable response. Go to (localhost:8080/docs)[localhost:8080/docs] for more details.
 
 ### 3. Add the chat bubble to your website
 
