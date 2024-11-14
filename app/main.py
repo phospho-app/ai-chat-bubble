@@ -21,14 +21,11 @@ load_dotenv()
 # Check that the environment variables are set
 assert os.getenv("MISTRAL_API_KEY"), "MISTRAL_API_KEY environment variable not set"
 assert os.getenv("URL"), "URL environment variable not set"
-assert os.getenv(
-    "DOMAIN_STATUS_FILE"
-), "DOMAIN_STATUS_FILE environment variable not set"
 
 URL = os.getenv("URL")
-DOMAIN_STATUS_FILE = os.getenv("DOMAIN_STATUS_FILE")
+DOMAIN_STATUS_FILE = "domain_status.json"
 DATA_FOLDER = "data"
-ORIGINS = os.getenv("ORIGINS")
+ORIGINS = os.getenv("ORIGINS", ["*"])
 SERVER_URL = os.getenv("SERVER_URL", "http://localhost:8080")
 
 host, port = urlparse(SERVER_URL).netloc.split(":")
