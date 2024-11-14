@@ -28,16 +28,10 @@ URL="https://www.example.com" # Your assistant will know everything about this 
 MISTRAL_API_KEY="..."
 PHOSPHO_API_KEY="..."
 PHOSPHO_PROJECT_ID="..."
-
-# Advanced config
-ORIGINS=["*"] # Used for CORS policy
-DOMAIN_STATUS_FILE="domain_status.json"
 ```
 
 In `URL`, put the website with the relevant content you want the AI assistant to know about.
 The assistant will crawl domains with a depth of 3 (this is customizable).
-
-_Note: Keep the `DOMAIN_STATUS_FILE` as it is._
 
 #### External services
 
@@ -77,7 +71,7 @@ To change the AI chat bubble, edit the `interface/chat-bubble.js` and then run `
 
 ### CORS policy
 
-In production, it's best to setup a more restrictive CORS policy to allow only your frontend to call your AI assistant backend. To do this, change the `ORIGINS` list in your `.env`.
+In production, it's best to setup a restrictive CORS policy to allow only your frontend to call your AI assistant backend. To do this, add an `ORIGINS` list in your `.env`.
 
 ```
 ORIGINS = ["http://localhost:3000", "http://localhost:3001"]
