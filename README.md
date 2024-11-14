@@ -19,7 +19,14 @@ See what users are asking thanks to [phospho analytics](https://phospho.ai) alre
 
 ### 1. Setup .env
 
-Clone this repository. Then, create a `.env` file at the root with this content:
+Clone this repository.
+
+```bash
+# clone using the web url
+git clone https://github.com/phospho-app/ai-chat-bubble.git
+```
+
+Then, create a `.env` file at the root with this content:
 
 ```bash
 URL="https://www.example.com" # Your assistant will know everything about this URL
