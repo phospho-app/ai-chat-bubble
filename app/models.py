@@ -9,7 +9,7 @@ from scrapy.utils.project import (  # type:ignore
 from qdrant_client import QdrantClient
 from llama_index.vector_stores.qdrant import QdrantVectorStore
 from llama_index.core import StorageContext
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.embeddings.mistralai import MistralAIEmbedding
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 import time
 import json
@@ -83,7 +83,9 @@ class EmbeddingsVS:
         """
         self.vector_db_name = domain.replace(".", "_")
         self.domain = domain
-        self.embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
+        self.embed_model = MistralAIEmbedding(
+            model_name="mistral-embed", api_key=os.getenv("MISTRAL_API_KEY")
+        )
 
         self.client = QdrantClient(
             # you can use :memory: mode for fast and light-weight experiments,
