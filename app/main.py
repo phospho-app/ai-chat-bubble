@@ -3,7 +3,7 @@ import sys
 import json
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import StreamingResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
@@ -132,7 +132,19 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-app.mount("/component", StaticFiles(directory="component"), name="component")
+
+@app.get("/")
+async def health_check():
+    return {"status": "ok"}
+
+
+# Serve static files
+@app.get("/static/chat-bubble.js")
+async def serve_component_file():
+    file_path = os.path.join("static", "chat-bubble.js")
+    if os.path.exists(file_path):
+        return FileResponse(file_path)
+    return {"error": "File not found"}, 404
 
 
 def process_domain(domain: str):
