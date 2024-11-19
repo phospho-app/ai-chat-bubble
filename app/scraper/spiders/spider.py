@@ -9,8 +9,7 @@ import hashlib
 import os
 import pandas
 import uuid
-from sentence_transformers import SentenceTransformer
-from scrapy.http import HtmlResponse
+from llama_index.embeddings.mistralai import MistralAIEmbedding
 
 
 class TextContentSpider(CrawlSpider):
@@ -34,8 +33,11 @@ class TextContentSpider(CrawlSpider):
         self.chunk_size = 1024
         self.db_path = db_path
         self.db_file = os.path.join(self.db_path, f"{domain}.json")
-        self.embeddings_model = SentenceTransformer("all-MiniLM-L6-v2")
-        self.embeddings_model_name = "all-MiniLM-L6-v2"
+        self.embeddings_model = MistralAIEmbedding(
+            api_key=os.getenv("MISTRAL_API_KEY"),
+            model_name="mistral-embed",
+        )
+        self.embeddings_model_name = "mistral-embed"
 
         # browser config
         self.browser_headless = False
