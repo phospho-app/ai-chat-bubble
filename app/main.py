@@ -4,7 +4,7 @@ import json
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi_simple_rate_limiter import rate_limiter
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
@@ -133,11 +133,13 @@ app.add_middleware(
 )
 
 
+@rate_limiter(limit=3, seconds=60)
 @app.get("/")
 async def health_check():
     return {"status": "ok"}
 
 
+@rate_limiter(limit=3, seconds=60)
 # Serve static files
 @app.get("/static/chat-bubble.js")
 async def serve_component_file():
@@ -163,6 +165,7 @@ def process_domain(domain: str):
         save_domain_status()
 
 
+@rate_limiter(limit=2, seconds=5)
 @app.post("/question_on_url")
 async def question_on_url(request: QuestionOnUrlRequest):
     if URL is None:
