@@ -21,6 +21,7 @@ phospho = "^0.3.44"
 llama-index = "^0.12.0"
 llama-index-vector-stores-qdrant = "^0.4.0"
 llama-index-embeddings-mistralai = "^0.3.0"
+fastapi-simple-rate-limiter = "^0.0.4"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.11.2"
