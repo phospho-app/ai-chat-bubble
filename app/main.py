@@ -26,6 +26,9 @@ URL = os.getenv("URL")
 DOMAIN_STATUS_FILE = "domain_status.json"
 DATA_FOLDER = "data"
 ORIGINS = os.getenv("ORIGINS", ["*"])
+# Parse the string into an array. Not needed if using load_dotenv
+if isinstance(ORIGINS, str):
+    ORIGINS = eval(ORIGINS)
 SERVER_URL = os.getenv("SERVER_URL", "http://localhost:8080")
 
 host, port = urlparse(SERVER_URL).netloc.split(":")
