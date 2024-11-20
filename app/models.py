@@ -87,19 +87,33 @@ class EmbeddingsVS:
             model_name="mistral-embed", api_key=os.getenv("MISTRAL_API_KEY")
         )
 
-        self.client = QdrantClient(
-            # you can use :memory: mode for fast and light-weight experiments,
-            # it does not require to have Qdrant deployed anywhere
-            # but requires qdrant-client >= 1.1.1
-            # location=":memory:"
-            # otherwise set Qdrant instance address with:
-            # url="http://<host>:<port>"
-            # otherwise set Qdrant instance with host and port:
-            host="qdrant",
-            port=6333,
-            # set API KEY for Qdrant Cloud
-            # api_key=QDRANT_API_KEY,
-        )
+        if os.getenv("QDRANT_API_KEY") and os.getenv("QDRANT_LOCATION"):
+            logger.info("Connecting to Qdrant cloud")
+            try:
+                self.client = QdrantClient(
+                    api_key=os.getenv("QDRANT_API_KEY"),
+                    location=os.getenv("QDRANT_LOCATION"),
+                )
+            except Exception as e:
+                logger.error(f"Failed to connect to Qdrant: {str(e)}")
+                self.client = None
+                logger.error(f"QDRANT_API_KEY: {os.getenv('QDRANT_API_KEY')}")
+                logger.error(f"QDRANT_LOCATION: {os.getenv('QDRANT_LOCATION')}")
+        else:
+            logger.info("Connecting to Qdrant local")
+            self.client = QdrantClient(
+                # you can use :memory: mode for fast and light-weight experiments,
+                # it does not require to have Qdrant deployed anywhere
+                # but requires qdrant-client >= 1.1.1
+                # location=":memory:"
+                # otherwise set Qdrant instance address with:
+                # url="http://<host>:<port>"
+                # otherwise set Qdrant instance with host and port:
+                host="qdrant",
+                port=6333,
+                # set API KEY for Qdrant Cloud
+                # api_key=QDRANT_API_KEY,
+            )
         self.scrapped_path = os.path.join(os.getcwd(), "data")
         self.limit = 5
 
